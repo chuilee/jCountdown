@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>jCountdown - jQuery Countdown Plugin Demos</title>
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700">
+<link rel="stylesheet" href="css/reset.css" />
+<link rel="stylesheet" href="css/style.css" />
+<script src="js/jquery.js"></script>
+<script src="../src/jquery.jcountdown.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$("#countdown").countdown({
+		date: "january 10, 2013 12:35"
+	});
+
+});
+</script>
+</head>
+<body>
+	<header>
+		<h1>jCountdown - jQuery Countdown Plugin Demos</h1>
+	</header>
+	<div>	
+		<section id="demos" class="fix">
+			<h2>Basic Demo</h2>
+
+			<p>Basic setup. No advanced options used. Only a date is passed to the plugin.</p>
+			<p>Good for people that are new to using jCountdown.</p>
+
+			<p id="countdown" class="time fix"></p>
+			
+			
+			<h2>Setup</h2>
+			
+<pre>
+//HTML
+
+&lt;p id="countdown"&gt;&lt;/p&gt;
+</pre>
+
+			<p>
+			Then pass the date to the plugin:	
+			</p>
+			<pre>
+//JavaScript
+				
+$("#countdown").countdown({
+	data: "january 10, 2013 12:35"
+});
+</pre>
+
+						
+		
+
+		</section>
+	</div>
+</body>
+</html>

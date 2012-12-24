@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>jCountdown - jQuery Countdown Plugin Demos</title>
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700">
+<link rel="stylesheet" href="css/reset.css" />
+<link rel="stylesheet" href="css/style.css" />
+<script src="js/jquery.js"></script>
+<script src="../src/jquery.jcountdown.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {	
+	
+	var dateTo = "January 21, 2013 12:00:00";
+	
+	$("#time").countdown({
+		date: dateTo,
+		offset: -8
+	});
+
+});
+</script>
+</head>
+<body>
+	<header>
+		<h1>jCountdown - jQuery Countdown Plugin Demos</h1>
+	</header>
+	<div>	
+		<section id="demos" class="fix">
+			<h2>Server Time Demo - Offset option</h2>
+
+
+			<p>Another way to use a servertime is to use the <strong>offset</strong> option. Just case the offset to the plugin to match the server time when counting down.
+			</p>
+			
+			
+			<p id="time" class="time"></p>
+			
+			
+			<h2>Setup</h2>
+<pre>
+// HTML
+&lt;p id="time"&gt;&lt;/p&gt;
+</pre>
+	
+<pre>
+// JavaScript				
+var dateTo = "January 21, 2013 12:00:00";
+
+$("#time").countdown({
+	date: dateTo,
+	offset: -8
+});
+</pre>
+		
+
+		</section>
+	</div>
+</body>
+</html>
+
