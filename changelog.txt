@@ -1,0 +1,25 @@
+
+Version 1.5.0:
+
+
+	- Bug fixes: gh-21, gh-25, gh-28, gh-29
+	- New methods: changeLocale
+	- New events: countdownStart
+	- New Options:
+		- dataAttr
+		- digits
+		- timeWrapElement
+		- textWrapElement
+		- timeWrapClass
+		- textWrapClass
+		- onStart
+		- onLocaleChange
+		- serverDiff
+		- timeSeparator
+		- isRTL	
+	- Removed Options:
+		- htmlTemplate
+		- servertime (Replace with serverDiff)
+
+
+
