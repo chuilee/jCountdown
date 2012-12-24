@@ -1,13 +1,13 @@
 $.fn.countdown.locale['de'] = {
-	yearText: 'years',
-	monthText: 'months',
-	weekText: 'weeks',
-	dayText: 'days',
-	hourText: 'hours',
-	minText: 'mins',
-	secText: 'sec',
+	yearText: 'Jahre',
+	monthText: 'Monate',
+	weekText: 'Wochen',
+	dayText: 'Tage',
+	hourText: 'Stunden',
+	minText: 'Minuten',
+	secText: 'Sekunden',
 	timeSeparator: ':', 
 	isRTL: false
 };
 
-$.extend( $.fn.countdown.defaults, $.fn.countdown.locale['en'] );
+$.extend( $.fn.countdown.defaults, $.fn.countdown.locale['de'] );
