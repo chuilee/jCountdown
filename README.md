@@ -154,12 +154,12 @@
 ## Events - (since 1.4.2)
 
 You can bind/unbind to these events using .on and .off()
-
+	
+	- countStart
 	- countChange
 	- countComplete
 	- countPause
 	- countResume
-	
 	- localeChange
 
 ## Usage
@@ -178,7 +178,6 @@ $(document.ready(function(){
 
     //Count DOWN to a date, set via ajax
 	$("#time2").countdown({
-		htmlTemplate: "%y <span class='cd-time'>years</span> %m <span class='cd-time'>months</span> %d <span class='cd-time'>days</span> %h <span class='cd-time'>hours</span> %i <span class='cd-time'>mins</span> %s <span class='cd-time'>sec</span>",
 		date: "december 19, 2012 16:00:00",
 		yearsAndMonths: true,
 		servertime: function() { 
