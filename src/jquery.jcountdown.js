@@ -12,7 +12,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 		secPerHr = 3600,
 		secPerMin = 60,
 		secPerSec = 1,
-		local_number = function( numToConvert, settings ) {
+		localNumber = function( numToConvert, settings ) {
 			
 			var arr = numToConvert.toString().match(/\d/g),
 				localeNumber = "";
@@ -24,12 +24,14 @@ $.fn.countdown = function( method /*, options*/ ) {
 			
 			return localeNumber;
 		},
-		generate_template = function( settings ) {
+		generateTemplate = function( settings ) {
 			
 			var template = '',
 				$parent = $('<div>'),
 				$timeWrapElement = $("<"+settings.timeWrapElement+">").addClass( settings.timeWrapClass ),
 				$textWrapElement = $("<"+settings.textWrapElement+">").addClass( settings.textWrapClass ),
+				
+				sep = settings.timeSeparator,
 				
 				yearsLeft = settings.yearsLeft,
 				monthsLeft = settings.monthsLeft,
@@ -46,7 +48,22 @@ $.fn.countdown = function( method /*, options*/ ) {
 				hideHours = false,
 				hideMins = false,
 				hideSecs = false,
-				timeTasks = [];
+				timeTasks = [],
+				addTime = function( time ) {
+					timeTasks.push(function() {
+						$parent.append( $timeWrapElement.clone().html( time + " " ) );
+					});					
+				},
+				addText = function( text ) {
+					timeTasks.push(function() {
+						$parent.append( $textWrapElement.clone().html( text + " " ) );
+					});					
+				},
+				addSeparator = function() {
+					timeTasks.push(function() {
+						$parent.append( $textWrapElement.clone().html( " " + sep + " ") );
+					});				
+				};
 						
 			if( settings.omitZero ) {
 				
@@ -109,109 +126,74 @@ $.fn.countdown = function( method /*, options*/ ) {
 				}								
 			}	
 			
-			yearsLeft = local_number( yearsLeft, settings );
-			monthsLeft = local_number( monthsLeft, settings );
-			weeksLeft = local_number( weeksLeft, settings );
-			daysLeft = local_number( daysLeft, settings );
-			hrsLeft = local_number( hrsLeft, settings );
-			minsLeft = local_number( minsLeft, settings );
-			
-			
-			//secLeft2 = local_number( secLeft, settings );
-			secLeft = local_number( secLeft, settings );
-			
-			//console.log( secLeft2, secLeft );
+			yearsLeft = localNumber( yearsLeft, settings );
+			monthsLeft = localNumber( monthsLeft, settings );
+			weeksLeft = localNumber( weeksLeft, settings );
+			daysLeft = localNumber( daysLeft, settings );
+			hrsLeft = localNumber( hrsLeft, settings );
+			minsLeft = localNumber( minsLeft, settings );
+			secLeft = localNumber( secLeft, settings );
 			
 			if( settings.yearsAndMonths ) {
 								
 				if( !settings.omitZero || !hideYears  ) {
-					//$parent.append( $timeWrapElement.clone().html( yearsLeft + " " ) );
-					//$parent.append( $textWrapElement.clone().html( settings.yearText  + " " ) );
-					
-					
-					timeTasks.push(function() {
-						$parent.append( $timeWrapElement.clone().html( yearsLeft + " " ) );
-					});
-					timeTasks.push(function() {
-						$parent.append( $textWrapElement.clone().html( settings.yearText  + " " ) );	
-					});
+										
+					addTime( yearsLeft );					
+					addText( settings.yearText );
+					addSeparator();
 				}
 				
 				//Only hide months if years is at 0 as well as months
 				if( !settings.omitZero || ( !hideYears && monthsLeft ) || ( !hideYears && !hideMonths )  ) {
-					//$parent.append( $timeWrapElement.clone().html( monthsLeft + " " ) );
-					//$parent.append( $textWrapElement.clone().html( settings.monthText + " " ) );
-					
-					timeTasks.push(function() {
-						$parent.append( $timeWrapElement.clone().html( monthsLeft + " " ) );
-					});
-					timeTasks.push(function() {
-						$parent.append( $textWrapElement.clone().html( settings.monthText + " " ) );						
-					});
+
+					addTime( monthsLeft );
+					addText( settings.monthText );
+					addSeparator();
 				}
 			}
 			
 			if( settings.weeks && !hideWeeks ) {
-				//$parent.append( $timeWrapElement.clone().html( weeksLeft + " " ) );
-				//$parent.append( $textWrapElement.clone().html( settings.weekText + " " ) );
-				
-				timeTasks.push(function() {
-					$parent.append( $timeWrapElement.clone().html( weeksLeft + " " ) );
-				});
-				timeTasks.push(function() {
-					$parent.append( $textWrapElement.clone().html( settings.weekText + " " ) );
-				});
+				addTime( weeksLeft );				
+				addText( settings.weekText );
+				addSeparator();
 			}
 
 			if( !hideDays ) {
-				timeTasks.push(function() {
-					$parent.append( $timeWrapElement.clone().html( daysLeft + " " ) );
-				});
-				timeTasks.push(function() {
-					$parent.append( $textWrapElement.clone().html( settings.dayText + " " ) );
-				});
+				addTime( daysLeft );
+				addText( settings.dayText );
+				addSeparator();
 			}
 
 			if( !hideHours ) {
-				timeTasks.push(function() {
-					$parent.append( $timeWrapElement.clone().html( hrsLeft + " " ) );
-				});
-				timeTasks.push(function() {
-					$parent.append( $textWrapElement.clone().html( settings.hourText + " " ) );
-				});
+				addTime( hrsLeft );
+				addText( settings.hourText );
+				addSeparator();
 			}
 			
 			if( !hideMins ) {
-				timeTasks.push(function() {
-					$parent.append( $timeWrapElement.clone().html( minsLeft + " " ) );
-				});
-				timeTasks.push(function() {
-					$parent.append( $textWrapElement.clone().html( settings.minText + " ") );
-				});
+				addTime( minsLeft );
+				addText( settings.minText );
+				addSeparator();
 			}
 			
-			timeTasks.push(function() {
-				$parent.append( $timeWrapElement.clone().html( secLeft + " " ) );
-			});
 			
-			timeTasks.push(function() {
-				$parent.append( $textWrapElement.clone().html( settings.secText + " " ) );
-			});
-			
+			addTime( secLeft );			
+			addText( settings.secText );
+						
 			if( settings.isRTL === true ) {
 				timeTasks.reverse();
 			}
 			
-			$.each( timeTasks, function(i,task ){
+			$.each( timeTasks, function(i,task ) {
 				task();
 			});
 			
-			template = $parent.html();			
+			template = $parent.html();
 			
 			return template;
 		},
 		dateNow = function( $this ) {
-			var now = new Date(),
+			var now = new Date(), //Default to local time
 				settings = $this.data("jcdData");
 			
 			if( !settings ) {
@@ -220,27 +202,24 @@ $.fn.countdown = function( method /*, options*/ ) {
 			
 			if( settings.offset !== null ) {
 				now = getTZDate( settings.offset );
-			} else {
-				now = getTZDate( null, settings.difference ); //Date now
 			}
 			
 			now.setMilliseconds(0);
-			
 			return now;
 		},
-		getTZDate = function( offset, difference ) {		
+		getTZDate = function( offset ) {
+			// Returns date now based on timezone/offset
 			var hrs,
 				dateMS,
 				curHrs,
 				tmpDate = new Date();
-			
-			if( offset === null ) {
-				dateMS = tmpDate.getTime() - difference;
-			} else {				
+				
+			if( offset !== null ) {
 				hrs = offset * msPerHr;
 				curHrs = tmpDate.getTime() - ( ( -tmpDate.getTimezoneOffset() / 60 ) * msPerHr ) + hrs;
 				dateMS = tmpDate.setTime( curHrs );
 			}
+			
 			return new Date( dateMS );
 		},			
 		timerFunc = function() {
@@ -276,19 +255,19 @@ $.fn.countdown = function( method /*, options*/ ) {
 			template = settings.htmlTemplate;
 			now = dateNow( $this );
 			
-			if( settings.servertime !== null ) {
-				date = new Date( settings.servertimeEnd - settings.servertime + settings.clientdateNow.getTime() );
-				date.setMilliseconds(0);
+			
+			if( settings.serverDiff !== null ) {
+				
+				date = new Date( settings.serverDiff + settings.clientdateNow.getTime() );
+
 			} else {
-				//date = new Date( settings.dateObj ); //Date to countdown to
 				date = settings.dateObj; //Date to countdown to
-				date.setMilliseconds(0);
 			}
 			
-			//console.log( date );
+			date.setMilliseconds(0);
 			
 			timeLeft = ( settings.direction === "down" ) ? date.getTime() - now.getTime() : now.getTime() - date.getTime();
-					
+			
 			diff = Math.round( timeLeft / 1000 );
 
 			daysLeft = extractSection( secPerDay );			
@@ -331,8 +310,10 @@ $.fn.countdown = function( method /*, options*/ ) {
 			//Assumes you are only using dates in the near future 
 			//as years, months and days aren't taken into account
 			if( settings.secsOnly ) {
+				
 				secLeft += ( minsLeft * 60 );
 				daysLeft = hrsLeft = minsLeft = 0;
+
 			}
 						
 			settings.yearsLeft = yearsLeft;
@@ -342,16 +323,15 @@ $.fn.countdown = function( method /*, options*/ ) {
 			settings.hrsLeft = hrsLeft;
 			settings.minsLeft = minsLeft;
 			settings.secLeft = secLeft;
-			
-			
-			//console.log( settings );
+
+			$this.data("jcdData", settings);
 			
 			if ( ( settings.direction === "down" && ( now < date || settings.minus ) ) || ( settings.direction === "up" && ( date < now || settings.minus )  ) ) {
-				time = generate_template( settings );
+				time = generateTemplate( settings );
 			} else {
 				settings.yearsLeft = settings.monthsLeft = settings.weeksLeft = settings.daysLeft = settings.hrsLeft = settings.minsLeft = settings.secLeft = 0;
 								
-				time = generate_template( settings );
+				time = generateTemplate( settings );
 				settings.hasCompleted = true;
 			}
 							
@@ -363,6 +343,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 			}
 			
 			$this.data("jcdData", settings);
+			
 		},			
 		methods = {		
 			init: function( options ) {
@@ -382,8 +363,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 						$this.countdown("changeSettings", options, true);
 						opts = $this.data("jcdData");
 					}
-					//console.log( opts.dataAttr );
-					
+
 					if( opts.date === null && opts.dataAttr === null ) {
 						$.error("No Date passed to jCountdown. date option is required.");
 						return true;
@@ -395,7 +375,6 @@ $.fn.countdown = function( method /*, options*/ ) {
 						testString = $this.data(opts.dataAttr);
 					}
 					
-					//console.log( testString );
 					
 					testDate = new Date(testString);
 					
@@ -403,9 +382,12 @@ $.fn.countdown = function( method /*, options*/ ) {
 						$.error("Invalid Date passed to jCountdown: " + testString);
 					}
 					
-					testDate = null;
-					
 					//Add event handlers where set
+
+					if( opts.onStart ) {
+						$this.on("start.jcdevt", opts.onStart );
+					}
+					
 					if( opts.onChange ) {
 						$this.on("change.jcdevt", opts.onChange );
 					}
@@ -421,43 +403,29 @@ $.fn.countdown = function( method /*, options*/ ) {
 					if( opts.onResume ) {
 						$this.on("resume.jcdevt", opts.onResume );
 					}
+
+
+					if( opts.onLocaleChange ) {
+						$this.on("locale.jcdevt", opts.onLocaleChange );
+					}
 					
+										
 					settings = $.extend( {}, opts );
 					
-					//if( !settings.clientdateNow ) {
 					settings.clientdateNow = new Date();
-					settings.clientdateNow.setMilliseconds(0);
-					//} else {
-						
-					//}
-					
+					settings.clientdateNow.setMilliseconds(0);					
 					settings.originalHTML = $this.html();
 					settings.dateObj = new Date( testString );
 					settings.dateObj.setMilliseconds(0);
-					
 					settings.hasCompleted = false;
 					settings.timer = 0;
 					settings.yearsLeft = settings.monthsLeft = settings.weeksLeft = settings.daysLeft = settings.hrsLeft = settings.minsLeft = settings.secLeft = 0;
 					settings.difference = null;
 					
-					testString = null;
-					
-					if( opts.servertime !== null ) {
-						var tempTime;
-						local = new Date();
-						local.setMilliseconds(0);
-						
-						tempTime = ( $.isFunction( settings.servertime ) ) ? settings.servertime() : settings.servertime;
-						
-						settings.difference = local.getTime() - tempTime;
-						
-						tempTime = null;
-					}
-
 					func = $.proxy( timerFunc, $this );
 					settings.timer = setInterval( func, settings.updateTime );
 
-					$this.data( "jcdData", settings );
+					$this.data( "jcdData", settings ).triggerMulti("start.jcdevt,countStart", [settings]);
 					
 					func();
 				});
@@ -581,7 +549,9 @@ $.fn.countdown = function( method /*, options*/ ) {
 					//Update setting, trigger complete event handler, then unbind all events
 					//We don"t delete the settings in case they need to be checked later on
 
-					$this.data("jcdData", settings).triggerMulti("complete.jcdevt,countComplete", [settings]).off(".jcdevt");
+					$this.data("jcdData", settings).triggerMulti("complete.jcdevt,countComplete", [settings]);
+					
+					//$this.off(".jcdevt, co");
 					
 				});		
 			},
@@ -614,7 +584,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 				//Return all settings or undefined
 				return settings;
 			},
-			changeLocale: function( locale ) {
+			changeLocale: function( locale ) { //new in v1.5.0
 				var $this = $(this),
 					settings = $this.data("jcdData");
 				
@@ -626,7 +596,8 @@ $.fn.countdown = function( method /*, options*/ ) {
 					
 				$.extend( settings, $.fn.countdown.locale[locale] );
 				
-				$this.data("jcdData", settings);
+				$this.data("jcdData", settings).triggerMulti("locale.jcdevt,localeChange", [settings]);
+				
 				return true;
 			}
 		};
@@ -640,9 +611,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 	}
 };
 
-
-
-
+// new in v1.5.0
 $.fn.countdown.defaults = {
 	date: null,
 	dataAttr: null,
@@ -662,13 +631,15 @@ $.fn.countdown.defaults = {
 	timeSeparator: '',
 	isRTL: false,
 	minus: false,
+	onStart: null,
 	onChange: null,
 	onComplete: null,
 	onResume: null,
 	onPause: null,
+	onLocaleChange: null,
 	leadingZero: false,
 	offset: null,
-	servertime:null,
+	serverDiff:null,
 	hoursOnly: false,
 	minsOnly: false,
 	secsOnly: false,
@@ -680,29 +651,11 @@ $.fn.countdown.defaults = {
 	omitZero: false
 };
 
-
+//Create an array to store new locales
+// new in v1.5.0
 $.fn.countdown.locale = [];
 
-/*
-
-i10n
-$.fn.countdown.locale = [];
-$.fn.countdown.locale['en'] = {
-	yearText: 'years',
-	monthText: 'months',
-	weekText: 'weeks',
-	dayText: 'days',
-	hourText: 'hours',
-	minText: 'mins',
-	secText: 'sec',
-	timeSeparator: ':', 
-	isRTL: false
-};
-
-$.extend( $.fn.countdown.defaults, $.fn.countdown.locale['en'] );
-
-*/
-
+// new in v1.5.0
 $.fn.triggerMulti = function( eventTypes, extraParameters ) {
 	var events = eventTypes.split(",");
 		
