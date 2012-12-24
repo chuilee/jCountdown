@@ -173,37 +173,7 @@ $(document.ready(function(){
 	});
 });
 
-//Advanced
-$(document.ready(function(){
 
-    //Count DOWN to a date, set via ajax
-	$("#time2").countdown({
-		date: "december 19, 2012 16:00:00",
-		yearsAndMonths: true,
-		servertime: function() { 
-		    var time = null; 
-		    $.ajax({url: 'get_time.php', 
-		        async: false, 
-				dataType: 'text', 
-		        success: function( data, status, xhr ) {  
-					time = data; 
-		        }, 
-				error: function(xhr, status, err) { 
-		            time = new Date(); 
-					time = time.getTime();
-		    	}
-			});
-		    return time; 
-		},
-		hoursOnly: false,
-		leadingZero: true
-	});
-
-});
-
-```
-		
-		
 ## License
 
 This plugin is licensed under the MIT License (LICENSE.txt).
