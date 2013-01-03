@@ -12,14 +12,24 @@ Version 1.5.0:
 		- textWrapElement
 		- timeWrapClass
 		- textWrapClass
+		- timeSeparator
 		- onStart
 		- onLocaleChange
 		- serverDiff
-		- timeSeparator
+		
 		- isRTL	
 	- Removed Options:
-		- htmlTemplate
 		- servertime (Replace with serverDiff)
+		- htmlTemplate - Replaced with the following, allows template to be more configurable: 
+			- digits
+			- timeWrapElement
+			- textWrapElement
+			- timeWrapClass
+			- textWrapClass
+			- timeSeparator
+		
+
+		
 
 
 
