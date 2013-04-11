@@ -167,7 +167,7 @@ You can bind/unbind to these events using .on and .off()
 ```javascript
 
 //Simple
-$(document.ready(function(){
+$(document).ready(function(){
 	$("#time").countdown({
 	    "date" : "july 30, 2011"
 	});
