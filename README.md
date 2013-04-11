@@ -99,6 +99,9 @@
 	leadingZero - Default: false
 		(Boolean. Whether time values should have a leading zero for values < 10. e.g 09)
 
+	omitZero - Default: false
+		(When set to true, if one of the time values is 0, it will be hidden)   
+
 	offset - Default: null
 		int or float (Offset in hours, can be used for setting countdown time to match server time)
 
