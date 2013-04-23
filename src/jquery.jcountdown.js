@@ -51,17 +51,17 @@ $.fn.countdown = function( method /*, options*/ ) {
 				timeTasks = [],
 				addTime = function( time ) {
 					timeTasks.push(function() {
-						$parent.append( $timeWrapElement.clone().html( time + " " ) );
+						$parent.append( $timeWrapElement.clone().html( time + settings.spaceCharacter ) );
 					});					
 				},
 				addText = function( text ) {
 					timeTasks.push(function() {
-						$parent.append( $textWrapElement.clone().html( text + " " ) );
+						$parent.append( $textWrapElement.clone().html( text + settings.spaceCharacter ) );
 					});					
 				},
 				addSeparator = function() {
 					timeTasks.push(function() {
-						$parent.append( $textWrapElement.clone().html( " " + sep + " ") );
+						$parent.append( $textWrapElement.clone().html( settings.spaceCharacter + sep + settings.spaceCharacter) );
 					});				
 				};
 						
@@ -640,6 +640,7 @@ $.fn.countdown.defaults = {
 	leadingZero: false,
 	offset: null,
 	serverDiff:null,
+	spaceCharacter: ' ',
 	hoursOnly: false,
 	minsOnly: false,
 	secsOnly: false,

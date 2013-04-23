@@ -56,6 +56,9 @@
 	
 	timeSeparator - Default: ''
 		(String) Separator for each time section
+
+	spaceCharacter - Default: ' '
+		(String) Character for spacing between time, text, and separators
 						
 	yearsAndMonths - Default: false
 		(Boolean. If set to true, jCountdown counts down the years/months as well)
