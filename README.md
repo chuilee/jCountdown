@@ -59,7 +59,9 @@
 						
 	yearsAndMonths - Default: false
 		(Boolean. If set to true, jCountdown counts down the years/months as well)
-				
+	
+	***The 3 options below shouldn't be used together***
+
 	hoursOnly - Default: false
 		(Boolean. If set to true, jCountdown ignores days left and add converts to hours and adds this to the hours left)
 				

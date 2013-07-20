@@ -5,8 +5,11 @@ $.fn.countdown = function( method /*, options*/ ) {
 		clear = window.clearInterval,
 		floor = Math.floor,
 		msPerHr = 3600000,
-		secPerYear = 31556926,
-		secPerMonth = 2629743.83,
+		//secPerYear = 31556926, //Original
+		secPerYear = 31557600, //From google
+		//secPerYear = 31557600, //New - 31557600
+		//secPerMonth = 2629743.83,
+		secPerMonth = 2629800, 
 		secPerWeek = 604800,
 		secPerDay = 86400,
 		secPerHr = 3600,
@@ -40,6 +43,8 @@ $.fn.countdown = function( method /*, options*/ ) {
 				hrsLeft = settings.hrsLeft,
 				minsLeft = settings.minsLeft,
 				secLeft = settings.secLeft,
+
+
 				
 				hideYears = false,
 				hideMonths = false,
@@ -144,7 +149,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 				}
 				
 				//Only hide months if years is at 0 as well as months
-				if( !settings.omitZero || ( !hideYears && monthsLeft ) || ( !hideYears && !hideMonths )  ) {
+				if( !settings.omitZero || ( !hideYears && monthsLeft ) || ( !hideYears && !hideMonths ) ) {
 
 					addTime( monthsLeft );
 					addText( settings.monthText );
@@ -153,7 +158,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 			}
 			
 			if( settings.weeks && !hideWeeks ) {
-				addTime( weeksLeft );				
+				addTime( weeksLeft );
 				addText( settings.weekText );
 				addSeparator();
 			}
@@ -255,11 +260,8 @@ $.fn.countdown = function( method /*, options*/ ) {
 			template = settings.htmlTemplate;
 			now = dateNow( $this );
 			
-			
 			if( settings.serverDiff !== null ) {
-				
 				date = new Date( settings.serverDiff + settings.clientdateNow.getTime() );
-
 			} else {
 				date = settings.dateObj; //Date to countdown to
 			}
@@ -271,7 +273,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 			diff = Math.round( timeLeft / 1000 );
 
 			daysLeft = extractSection( secPerDay );			
-			hrsLeft = extractSection( secPerHr );			
+			hrsLeft = extractSection( secPerHr );
 			minsLeft = extractSection( secPerMin );
 			secLeft = extractSection( secPerSec );
 												
@@ -292,28 +294,99 @@ $.fn.countdown = function( method /*, options*/ ) {
 				weeksLeft = extractSection( secPerWeek );
 				daysLeft = extractSection( secPerDay );
 			}
-						
-			//Assumes you are using dates within a month 
+
+			/**
+			* The following 3 option should never be used together!
+			* MAKE them work for any time
+			*/
+			
+			if( settings.hoursOnly || settings.minsOnly || settings.secsOnly )
+			{
+				
+				if( settings.yearsAndMonths ) {
+					//Add years, months, weeks and days back on so we can calculate dates easier
+					diff += ( yearsLeft * secPerYear );
+					diff += ( monthsLeft * secPerMonth );
+
+					yearsLeft = monthsLeft = 0;
+				}
+
+				if( settings.weeks ) {
+					diff += ( weeksLeft * secPerWeek );
+
+					weeksLeft = 0;
+				}
+
+
+				//minsLeft = extractSection( secPerMin );
+				//secLeft = extractSection( secPerSec );				
+			}	
+
+			//Assumes you are using dates within a month  ( ~ 30 days )
 			//as years and months aren't taken into account
 			if( settings.hoursOnly ) {
-				hrsLeft += daysLeft * 24;
-				daysLeft = 0;
+
+				// Add days back on
+				diff += ( daysLeft * secPerDay );
+
+				// Add hours back on
+				diff += ( hrsLeft * secPerHr );
+				hrsLeft = extractSection( secPerHr );
+
 			}
 			
-			//Assumes you are only using dates in the near future 
+			//Assumes you are only using dates in the near future ( <= 24 hours )
 			//as years and months aren't taken into account
 			if( settings.minsOnly ) {
-				minsLeft += ( hrsLeft * 60 ) + ( ( daysLeft * 24 ) * 60 );
-				daysLeft = hrsLeft = 0;
+
+				
+				// Add days back on
+				diff += ( daysLeft * secPerDay );
+				daysLeft = 0;
+
+				// Add hours back on
+				diff += ( hrsLeft * secPerHr );
+				hrsLeft = 0;
+
+				diff += ( minsLeft * secPerMin );
+				
+				minsLeft = extractSection( secPerMin );
+				
+
+				
+				//minsLeft += ( hrsLeft * 60 ) + ( ( daysLeft * 24 ) * 60 );
+				//daysLeft = hrsLeft = 0;
+				
 			}
 
-			//Assumes you are only using dates in the near future 
+			//Assumes you are only using dates in the near future ( <= 60 minutes )
 			//as years, months and days aren't taken into account
 			if( settings.secsOnly ) {
+
 				
+				// Add days back on
+				diff += ( daysLeft * secPerDay );
+				daysLeft = 0;
+
+				// Add hours back on
+				diff += ( hrsLeft * secPerHr );
+				hrsLeft = 0;
+
+				// Add minutes back on
+				diff += ( minsLeft * secPerMin );
+				minsLeft = 0;
+
+				// Add seconds back on
+				diff += secLeft;
+				//minsLeft = 0;
+
+				secLeft = extractSection( secPerSec );
+				
+
+				/*
 				secLeft += ( minsLeft * 60 );
 				daysLeft = hrsLeft = minsLeft = 0;
-
+				*/
 			}
 						
 			settings.yearsLeft = yearsLeft;
@@ -640,6 +713,7 @@ $.fn.countdown.defaults = {
 	leadingZero: false,
 	offset: null,
 	serverDiff:null,
+	//daysOnly: false,
 	hoursOnly: false,
 	minsOnly: false,
 	secsOnly: false,
@@ -648,7 +722,8 @@ $.fn.countdown.defaults = {
 	yearsAndMonths: false,
 	direction: "down",
 	stopwatch: false,
-	omitZero: false
+	omitZero: false,
+	template: null
 };
 
 //Create an array to store new locales

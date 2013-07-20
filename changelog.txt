@@ -1,8 +1,11 @@
+Version 1.5.1:
+	
+	- Bug fixes: gh-3 (More of an improvement on how it works)
 
 Version 1.5.0:
 
 
-	- Bug fixes: gh-21, gh-25, gh-28, gh-29
+	- Bug fixes: gh-21, gh-25, gh-28, gh-29 (From old Repo)
 	- New methods: changeLocale
 	- New events: countdownStart
 	- New Options:
