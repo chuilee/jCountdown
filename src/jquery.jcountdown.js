@@ -5,16 +5,14 @@ $.fn.countdown = function( method /*, options*/ ) {
 		clear = window.clearInterval,
 		floor = Math.floor,
 		msPerHr = 3600000,
-		//secPerYear = 31556926, //Original
-		secPerYear = 31557600, //From google
-		//secPerYear = 31557600, //New - 31557600
-		//secPerMonth = 2629743.83,
+		secPerYear = 31557600,
 		secPerMonth = 2629800, 
 		secPerWeek = 604800,
 		secPerDay = 86400,
 		secPerHr = 3600,
 		secPerMin = 60,
 		secPerSec = 1,
+		
 		localNumber = function( numToConvert, settings ) {
 			
 			var arr = numToConvert.toString().match(/\d/g),
@@ -26,6 +24,153 @@ $.fn.countdown = function( method /*, options*/ ) {
 			});
 			
 			return localeNumber;
+		},
+		generateTemplateCustom = function( settings ) {
+
+			var template = settings.template,
+				$parent = $('<div>'),
+				$timeWrapElement = $("<"+settings.timeWrapElement+">").addClass( settings.timeWrapClass ),
+				$textWrapElement = $("<"+settings.textWrapElement+">").addClass( settings.textWrapClass ),
+				
+				sep = settings.timeSeparator,
+				
+				yearsLeft = settings.yearsLeft,
+				monthsLeft = settings.monthsLeft,
+				weeksLeft = settings.weeksLeft,
+				daysLeft = settings.daysLeft,
+				hrsLeft = settings.hrsLeft,
+				minsLeft = settings.minsLeft,
+				secLeft = settings.secLeft,
+				
+				hideYears = false,
+				hideMonths = false,
+				hideWeeks = false,
+				hideDays = false,
+				hideHours = false,
+				hideMins = false,
+				hideSecs = false,
+				timeTasks = [],
+				formatTime = function(time, text, showSeparator) {
+					var timeStr = $timeWrapElement.clone().html( time + settings.spaceCharacter ).html();
+					timeStr += $textWrapElement.clone().html( text + settings.spaceCharacter ).html();
+					if( showSeparator )
+					{
+						timeStr += $textWrapElement.clone().html( settings.spaceCharacter + sep + settings.spaceCharacter ).html();
+					}
+					return timeStr;
+				};
+
+			if( settings.omitZero ) {
+				
+				if( settings.yearsAndMonths ) {
+
+					if( !settings.yearsLeft ) {
+						hideYears = true;
+					}
+					if( !settings.monthsLeft ) {
+						hideMonths = true;
+					}				
+				}
+			
+				if( settings.weeks && ( ( settings.yearsAndMonths && hideMonths && !settings.weeksLeft ) || ( !settings.yearsAndMonths && !settings.weeksLeft ) ) ) {	
+					hideWeeks = true;
+				}
+			
+				if( hideWeeks && !daysLeft ) {
+					hideDays = true;
+				}
+
+				if( hideDays && !hrsLeft ) {
+					hideHours = true;
+				}
+								
+				if( hideHours && !minsLeft ) {
+					hideMins = true;
+				}
+							
+			}		
+			
+			if( settings.leadingZero ) {
+				
+				if( yearsLeft < 10 ) {
+					yearsLeft = "0" + yearsLeft;
+				}
+
+				if( monthsLeft < 10 ) {
+					monthsLeft = "0" + monthsLeft;
+				}
+
+				if( weeksLeft < 10 ) {
+					weeksLeft = "0" + weeksLeft;
+				}
+				
+				if( daysLeft < 10 ) {
+					daysLeft = "0" + daysLeft;
+				}
+				
+				if( hrsLeft < 10 ) {
+					hrsLeft = "0" + hrsLeft;
+				}
+				
+				if( minsLeft < 10 ) {
+					minsLeft = "0" + minsLeft;
+				}
+				
+				if( secLeft < 10 ) {
+					secLeft = "0" + secLeft;
+				}								
+			}	
+			
+			yearsLeft = localNumber( yearsLeft, settings );
+			monthsLeft = localNumber( monthsLeft, settings );
+			weeksLeft = localNumber( weeksLeft, settings );
+			daysLeft = localNumber( daysLeft, settings );
+			hrsLeft = localNumber( hrsLeft, settings );
+			minsLeft = localNumber( minsLeft, settings );
+			secLeft = localNumber( secLeft, settings );
+			
+			if( settings.yearsAndMonths ) {
+								
+				if( !settings.omitZero || !hideYears  ) {
+					template = template.replace('%y', formatTime(yearsLeft, settings.yearText, true));
+				}
+				
+				//Only hide months if years is at 0 as well as months
+				if( !settings.omitZero || ( !hideYears && monthsLeft ) || ( !hideYears && !hideMonths ) ) {
+					template = template.replace('%m', formatTime(monthsLeft, settings.monthText, true));
+				} else {
+					template = template.replace('%m', '');
+				}
+
+			}
+			
+			if( settings.weeks && !hideWeeks ) {
+				template = template.replace('%w', formatTime(weeksLeft, settings.weekText, true));
+			} else {
+				template = template.replace('%w', '');
+			}
+
+			if( !hideDays ) {
+				template = template.replace('%d', formatTime(daysLeft, settings.dayText, true));
+			} else {
+				template = template.replace('%d', '');
+			}
+
+			if( !hideHours ) {
+				template = template.replace('%h', formatTime(hrsLeft, settings.hourText, true));
+			} else {
+				template = template.replace('%h', '');
+			}
+			
+			if( !hideMins ) {
+				template = template.replace('%i', formatTime(minsLeft, settings.minText, true));
+			} else {
+				template = template.replace('%i', '');
+			}
+		
+			template = template.replace('%s', formatTime(secLeft, settings.secText));
+
+			return template;
 		},
 		generateTemplate = function( settings ) {
 			
@@ -43,9 +188,8 @@ $.fn.countdown = function( method /*, options*/ ) {
 				hrsLeft = settings.hrsLeft,
 				minsLeft = settings.minsLeft,
 				secLeft = settings.secLeft,
-
-
-				
+				template = settings.template,
+				hasTemplate = !!settings.template,
 				hideYears = false,
 				hideMonths = false,
 				hideWeeks = false,
@@ -68,8 +212,22 @@ $.fn.countdown = function( method /*, options*/ ) {
 					timeTasks.push(function() {
 						$parent.append( $textWrapElement.clone().html( settings.spaceCharacter + sep + settings.spaceCharacter) );
 					});				
+				},
+				formatTime = function(time, text, showSeparator) {
+					var timeStr = $timeWrapElement.clone().html( time + settings.spaceCharacter ).html();
+					timeStr += $textWrapElement.clone().html( text + settings.spaceCharacter ).html();
+					if( showSeparator )
+					{
+						timeStr += $textWrapElement.clone().html( settings.spaceCharacter + sep + settings.spaceCharacter ).html();
+					}
+					return timeStr;
 				};
-						
+			
+			if( settings.template )
+			{
+				return generateTemplateCustom( settings );
+			}		
+
 			if( settings.omitZero ) {
 				
 				if( settings.yearsAndMonths ) {
@@ -146,6 +304,11 @@ $.fn.countdown = function( method /*, options*/ ) {
 					addTime( yearsLeft );					
 					addText( settings.yearText );
 					addSeparator();
+
+					/*if( hasTemplate )
+					{
+						template = template.replace('%y', formatTime(yearsLeft, settings.yearText, true));
+					}*/
 				}
 				
 				//Only hide months if years is at 0 as well as months
@@ -713,7 +876,6 @@ $.fn.countdown.defaults = {
 	leadingZero: false,
 	offset: null,
 	serverDiff:null,
-	//daysOnly: false,
 	spaceCharacter: ' ',
 	hoursOnly: false,
 	minsOnly: false,
