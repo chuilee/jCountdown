@@ -118,6 +118,9 @@
 	
 	isRTL - Default: false
 		(Boolean). Set to true when using a Right-To-Left language
+
+	template - Default: null
+		Tokens available: %y = years, %m = months, %w = weeks, %d = days, %h = hours, %i = minutes, %s = seconds
 									
 ## Methods
 

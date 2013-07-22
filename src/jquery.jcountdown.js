@@ -3,7 +3,6 @@ $.fn.countdown = function( method /*, options*/ ) {
 
 	var slice = Array.prototype.slice,
 		clear = window.clearInterval,
-		floor = Math.floor,
 		msPerHr = 3600000,
 		secPerYear = 31557600,
 		secPerMonth = 2629800, 
@@ -12,10 +11,10 @@ $.fn.countdown = function( method /*, options*/ ) {
 		secPerHr = 3600,
 		secPerMin = 60,
 		secPerSec = 1,
-		
+		rDigitGlobal = /\d/g;
 		localNumber = function( numToConvert, settings ) {
 			
-			var arr = numToConvert.toString().match(/\d/g),
+			var arr = numToConvert.toString().match(rDigitGlobal),
 				localeNumber = "";
 			
 			$.each( arr, function(i,num) {
@@ -29,7 +28,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 
 			var template = settings.template,
 				$parent = $('<div>'),
-				$timeWrapElement = $("<"+settings.timeWrapElement+">").addClass( settings.timeWrapClass ),
+				$timeWrapElement = settings.dom.$time.addClass( settings.timeWrapClass ),
 				$textWrapElement = $("<"+settings.textWrapElement+">").addClass( settings.textWrapClass ),
 				
 				sep = settings.timeSeparator,
@@ -406,10 +405,19 @@ $.fn.countdown = function( method /*, options*/ ) {
 				secLeft = 0,
 				time = "",
 				diff,
+
+				hideYears = false,
+				hideMonths = false,
+				hideWeeks = false,
+				hideDays = false,
+				hideHours = false,
+				hideMins = false,
+				hideSecs = false,
+
 				extractSection = function( numSecs ) {
 					var amount;
 	
-					amount = floor( diff / numSecs );
+					amount = Math.floor( diff / numSecs );
 					diff -= amount * numSecs;
 					
 					return amount;
@@ -619,7 +627,6 @@ $.fn.countdown = function( method /*, options*/ ) {
 					}
 					
 					//Add event handlers where set
-
 					if( opts.onStart ) {
 						$this.on("start.jcdevt", opts.onStart );
 					}
@@ -645,9 +652,18 @@ $.fn.countdown = function( method /*, options*/ ) {
 						$this.on("locale.jcdevt", opts.onLocaleChange );
 					}
 					
-										
 					settings = $.extend( {}, opts );
+
 					
+					// Cache DOM elements for templating
+					settings.dom = {};
+
+					settings.dom.$time = $("<"+settings.timeWrapElement+">").addClass( settings.timeWrapClass );
+					settings.dom.$text = $("<"+settings.textWrapElement+">").addClass( settings.textWrapClass );
+					
+					//$timeWrapElement = $("<"+settings.timeWrapElement+">").addClass( settings.timeWrapClass ),
+					//$textWrapElement = $("<"+settings.textWrapElement+">")
+
 					settings.clientdateNow = new Date();
 					settings.clientdateNow.setMilliseconds(0);					
 					settings.originalHTML = $this.html();
@@ -661,7 +677,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 					func = $.proxy( timerFunc, $this );
 					settings.timer = setInterval( func, settings.updateTime );
 
-					$this.data( "jcdData", settings ).triggerMulti("start.jcdevt,countStart", [settings]);
+					$this.data("jcdData", settings).triggerMulti("start.jcdevt,countStart", [settings]);
 					
 					func();
 				});
@@ -734,7 +750,8 @@ $.fn.countdown = function( method /*, options*/ ) {
 						return true;
 					}
 
-					$this.data("jcdData", settings).trigger("resume.jcdevt", [settings] ).trigger("countResume", [settings] );
+					//$this.data("jcdData", settings).trigger("resume.jcdevt", [settings] ).trigger("countResume", [settings] );
+					$this.data("jcdData", settings).triggerMulti("resume.jcdevt,countResume", [settings] );
 					//We only want to resume a countdown that hasn't finished
 					if( !settings.hasCompleted ) {
 						settings.timer = setInterval( func, settings.updateTime );						
@@ -768,7 +785,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 					//Clear interval (Will be started on resume)
 					clear( settings.timer );
 					//Trigger pause event handler
-					$this.data("jcdData", settings).triggerMulti("pause.jcdevt,countPause", [settings] );		
+					$this.data("jcdData", settings).triggerMulti("pause.jcdevt,countPause", [settings] );
 				});
 			},
 			complete: function() {
