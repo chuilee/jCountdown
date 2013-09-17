@@ -1,9 +1,7 @@
 (function($) {
 $.fn.countdown = function( method /*, options*/ ) {
 
-	var slice = Array.prototype.slice,
-		clear = window.clearInterval,
-		msPerHr = 3600000,
+	var msPerHr = 3600000,
 		secPerYear = 31557600,
 		secPerMonth = 2629800, 
 		secPerWeek = 604800,
@@ -11,7 +9,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 		secPerHr = 3600,
 		secPerMin = 60,
 		secPerSec = 1,
-		rDigitGlobal = /\d/g;
+		rDigitGlobal = /\d/g,
 		localNumber = function( numToConvert, settings ) {
 			
 			var arr = numToConvert.toString().match(rDigitGlobal),
@@ -25,7 +23,6 @@ $.fn.countdown = function( method /*, options*/ ) {
 			return localeNumber;
 		},
 		generateTemplateCustom = function( settings ) {
-
 			var template = settings.template,
 				$parent = $('<div>'),
 				$timeWrapElement = settings.dom.$time.addClass( settings.timeWrapClass ),
@@ -173,8 +170,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 		},
 		generateTemplate = function( settings ) {
 			
-			var template = '',
-				$parent = $('<div>'),
+			var $parent = $('<div>'),
 				$timeWrapElement = $("<"+settings.timeWrapElement+">").addClass( settings.timeWrapClass ),
 				$textWrapElement = $("<"+settings.textWrapElement+">").addClass( settings.textWrapClass ),
 				
@@ -583,7 +579,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 			
 			if ( settings.hasCompleted ) {
 				$this.triggerMulti("complete.jcdevt,countComplete");
-				clear( settings.timer );
+				clearInterval( settings.timer );
 			}
 			
 			$this.data("jcdData", settings);
@@ -708,7 +704,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 					settings.dateObj  = new Date( options.date );
 					
 					//Clear the timer, as it might not be needed
-					clear( settings.timer );					
+					clearInterval( settings.timer );					
 					$this.off(".jcdevt").data("jcdData", settings);	
 					
 					//As this can be accessed via the init method as well,
@@ -783,7 +779,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 						settings.pausedAt = dateNow( $this );
 					}
 					//Clear interval (Will be started on resume)
-					clear( settings.timer );
+					clearInterval( settings.timer );
 					//Trigger pause event handler
 					$this.data("jcdData", settings).triggerMulti("pause.jcdevt,countPause", [settings] );
 				});
@@ -797,7 +793,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 						return true;
 					}
 					//Clear timer
-					clear( settings.timer );
+					clearInterval( settings.timer );
 					settings.hasCompleted = true;
 					//Update setting, trigger complete event handler, then unbind all events
 					//We don"t delete the settings in case they need to be checked later on
@@ -817,7 +813,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 						return true;
 					}
 					//Clear timer
-					clear( settings.timer );
+					clearInterval( settings.timer );
 					//Unbind all events, remove data and put DOM Element back to its original state (HTML wise)
 					$this.off(".jcdevt").removeData("jcdData").html( settings.originalHTML );
 				});
@@ -856,7 +852,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 		};
 	
 	if( methods[ method ] ) {
-		return methods[ method ].apply( this, slice.call( arguments, 1 ) );
+		return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ) );
 	} else if ( typeof method === "object" || !method ) {
 		return methods.init.apply( this, arguments );
 	} else {
