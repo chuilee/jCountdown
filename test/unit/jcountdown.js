@@ -523,3 +523,17 @@ test("Template", 1, function() {
     ok( $test.countdown('getSettings').template === '%y %m %h %i %s', 'template is set correctly');
 
 });
+
+test("Template - Remove un-used tokens", 1, function() {
+
+    var $test = $("#test"),
+        date = new Date(),
+        future60Date = new Date( date.getTime() + ( 60000 * 2 ) ); //60 secs * 2 minutes
+
+    $test.countdown({
+        date: future60Date,
+        template: '%y %m %h %i %s'
+    });
+
+    ok( $test.html().indexOf('%y') === -1, 'Template is removed correctly');
+});

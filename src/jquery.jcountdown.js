@@ -9,6 +9,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 		secPerHr = 3600,
 		secPerMin = 60,
 		secPerSec = 1,
+        rTemplateTokens = /%y|%m|%w|%d|%h|%i|%s/g,
 		rDigitGlobal = /\d/g,
 		localNumber = function( numToConvert, settings ) {
 			
@@ -165,6 +166,9 @@ $.fn.countdown = function( method /*, options*/ ) {
 			}
 		
 			template = template.replace('%s', formatTime(secLeft, settings.secText));
+
+            // Remove un-used tokens
+            template = template.replace(rTemplateTokens,'');
 
 			return template;
 		},
