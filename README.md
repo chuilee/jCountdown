@@ -1,7 +1,7 @@
 # jCountdown - jQuery Countdown Plugin
 
 
-##Version 1.5.0
+##Version 1.5
 
 ## Options
 
@@ -49,10 +49,10 @@
 		Used by template for building countdown
 	
 	timeWrapClass - Default: ''
-		Used by template for building countdown so you can style your coundown
+		Used by template for building countdown so you can style your countdown
 	
 	textWrapClass - Default: 'cd-time'
-		Used by template for building countdown so you can style your coundown
+		Used by template for building countdown so you can style your countdown
 	
 	timeSeparator - Default: ''
 		(String) Separator for each time section

@@ -3,6 +3,7 @@ Version 1.5.1:
 	- Bug fixes: gh-3 (More of an improvement on how it works)
 	- Add space character (Thanks to cmeyermd)
 	- Fixes to and new locale files (Thanks to elmariofredo)
+	- Put old templating back in to use instead of new temmplate
 
 Version 1.5.0:
 

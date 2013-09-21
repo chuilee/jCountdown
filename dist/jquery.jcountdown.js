@@ -1,4 +1,4 @@
-/*! jCountdown jQuery Plugin - v1.5.0 - 2013-09-17
+/*! jCountdown jQuery Plugin - v1.5.0 - 2013-09-21
 * https://github.com/tomgrohl/jCountdown/
 * Copyright (c) 2013 Tom Ellis; Licensed MIT */
 
