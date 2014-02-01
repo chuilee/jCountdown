@@ -3,6 +3,14 @@
 
 ##Current Version - 1.5.2
 
+## Installation
+
+### Bower
+
+    ```
+    bower install jcountdown --save
+    ```
+
 ## Options
 
 	dataAttr - Default null
