@@ -1,7 +1,6 @@
-/*! jCountdown jQuery Plugin - v1.5.0 - 2013-09-21
+/*! jCountdown jQuery Plugin - v1.5.1 - 2014-02-01
 * https://github.com/tomgrohl/jCountdown/
-* Copyright (c) 2013 Tom Ellis; Licensed MIT */
-
+* Copyright (c) 2014 Tom Ellis; Licensed MIT */
 (function($) {
 $.fn.countdown = function( method /*, options*/ ) {
 
@@ -13,6 +12,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 		secPerHr = 3600,
 		secPerMin = 60,
 		secPerSec = 1,
+        rTemplateTokens = /%y|%m|%w|%d|%h|%i|%s/g,
 		rDigitGlobal = /\d/g,
 		localNumber = function( numToConvert, settings ) {
 			
@@ -169,6 +169,9 @@ $.fn.countdown = function( method /*, options*/ ) {
 			}
 		
 			template = template.replace('%s', formatTime(secLeft, settings.secText));
+
+            // Remove un-used tokens
+            template = template.replace(rTemplateTokens,'');
 
 			return template;
 		},
@@ -876,6 +879,16 @@ $.fn.countdown.defaults = {
 	hourText: 'hours',
 	minText: 'mins',
 	secText: 'sec',
+
+    yearSinglularText: 'years',
+    monthSingularText: 'months',
+    weekSingularText: 'weeks',
+    daySingularText: 'days',
+    hourText: 'hours',
+    minText: 'mins',
+    secText: 'sec',
+
+
 	digits : [0,1,2,3,4,5,6,7,8,9],
 	timeWrapElement: 'span',
 	textWrapElement: 'span',

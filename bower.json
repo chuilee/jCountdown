@@ -1,0 +1,26 @@
+{
+    "name": "jcountdown",
+    "version": "1.5.1",
+    "authors": [
+        "Tom Ellis <tellishtc@gmail.com>"
+    ],
+    "description": "jQuery Countdown Plugin",
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "*.md",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests",
+        "Gruntfile.js",
+        "package.json",
+        "bower.json"
+    ],
+    "dependencies": {
+        "jquery": "~1.11.0"
+    },
+    "devDependencies": {
+        "qunit": "~1.12.0"
+    }
+}
