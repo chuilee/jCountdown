@@ -1,7 +1,7 @@
 # jCountdown - jQuery Countdown Plugin
 
 
-##Version 1.5
+##Current Version - 1.5.2
 
 ## Options
 
@@ -39,6 +39,27 @@
 	minText - Default:  'mins'
 		Used by template
 		
+	secText - Default: 'sec'
+		Used by template
+
+	yearSingularText - Default: 'year'
+		Used by template
+
+	monthSingularText - Default: 'month'
+		Used by template
+
+	weekSingularText - Default: 'week'
+		Used by template
+
+	daySingularText - Default: 'day'
+		Used by template
+
+	hourSingularText - Default:  'hour'
+		Used by template
+
+	minText - Default:  'min'
+		Used by template
+
 	secText - Default: 'sec'
 		Used by template
 
@@ -189,4 +210,4 @@ $(document).ready(function(){
 
 This plugin is licensed under the MIT License (LICENSE.txt).
 
-Copyright (c) 2013 [Tom Ellis](http://www.webmuse.co.uk)
+Copyright (c) 2014 [Tom Ellis](http://www.webmuse.co.uk)
