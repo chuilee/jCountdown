@@ -7,10 +7,9 @@
 
 ### Bower
 
-    ```
-    bower install jcountdown --save
-    ```
-
+```
+bower install jcountdown --save
+```
 ## Options
 
 	dataAttr - Default null
