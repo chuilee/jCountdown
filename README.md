@@ -10,6 +10,12 @@
 ```
 bower install jcountdown --save
 ```
+
+### Download
+
+Get any of the release from https://github.com/tomgrohl/jCountdown/releases
+
+
 ## Options
 
 	dataAttr - Default null
