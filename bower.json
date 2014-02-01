@@ -15,7 +15,10 @@
         "tests",
         "Gruntfile.js",
         "package.json",
-        "bower.json"
+        "bower.json",
+        "src",
+        "changelog.txt",
+        "demo"
     ],
     "dependencies": {
         "jquery": "~1.11.0"
