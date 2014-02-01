@@ -129,12 +129,12 @@ $.fn.countdown = function( method /*, options*/ ) {
 			if( settings.yearsAndMonths ) {
 								
 				if( !settings.omitZero || !hideYears  ) {
-					template = template.replace('%y', formatTime(yearsLeft, settings.yearText, true));
+					template = template.replace('%y', formatTime(yearsLeft, (yearsLeft == 1 && settings.yearSingularText) ? settings.yearSingularText : settings.yearText, true));
 				}
 				
 				//Only hide months if years is at 0 as well as months
 				if( !settings.omitZero || ( !hideYears && monthsLeft ) || ( !hideYears && !hideMonths ) ) {
-					template = template.replace('%m', formatTime(monthsLeft, settings.monthText, true));
+					template = template.replace('%m', formatTime(monthsLeft, (monthsLeft == 1 && settings.monthSingularText) ? settings.monthSingularText : settings.monthText, true));
 				} else {
 					template = template.replace('%m', '');
 				}
@@ -142,30 +142,30 @@ $.fn.countdown = function( method /*, options*/ ) {
 			}
 			
 			if( settings.weeks && !hideWeeks ) {
-				template = template.replace('%w', formatTime(weeksLeft, settings.weekText, true));
+				template = template.replace('%w', formatTime(weeksLeft, (weeksLeft == 1 && settings.weekSingularText) ? settings.weekSingularText : settings.weekText, true));
 			} else {
 				template = template.replace('%w', '');
 			}
 
 			if( !hideDays ) {
-				template = template.replace('%d', formatTime(daysLeft, settings.dayText, true));
+				template = template.replace('%d', formatTime(daysLeft, (daysLeft == 1 && settings.daySingularText) ? settings.daySingularText : settings.dayText, true));
 			} else {
 				template = template.replace('%d', '');
 			}
 
 			if( !hideHours ) {
-				template = template.replace('%h', formatTime(hrsLeft, settings.hourText, true));
+				template = template.replace('%h', formatTime(hrsLeft, (hrsLeft == 1 && settings.hourSingularText) ? settings.hourSingularText : settings.hourText, true));
 			} else {
 				template = template.replace('%h', '');
 			}
 			
 			if( !hideMins ) {
-				template = template.replace('%i', formatTime(minsLeft, settings.minText, true));
+				template = template.replace('%i', formatTime(minsLeft, (minsLeft == 1 && settings.minSingularText) ? settings.minSingularText : settings.minText, true));
 			} else {
 				template = template.replace('%i', '');
 			}
 		
-			template = template.replace('%s', formatTime(secLeft, settings.secText));
+			template = template.replace('%s', formatTime(secLeft, (secLeft == 1 && settings.secSingularText) ? settings.secSingularText : settings.secText));
 
             // Remove un-used tokens
             template = template.replace(rTemplateTokens,'');
@@ -301,45 +301,41 @@ $.fn.countdown = function( method /*, options*/ ) {
 				if( !settings.omitZero || !hideYears  ) {
 										
 					addTime( yearsLeft );					
-					addText( settings.yearText );
+					addText( (yearsLeft == 1 && settings.yearSingularText) ? settings.yearSingularText : settings.yearText );
 					addSeparator();
 
-					/*if( hasTemplate )
-					{
-						template = template.replace('%y', formatTime(yearsLeft, settings.yearText, true));
-					}*/
 				}
 				
 				//Only hide months if years is at 0 as well as months
 				if( !settings.omitZero || ( !hideYears && monthsLeft ) || ( !hideYears && !hideMonths ) ) {
 
 					addTime( monthsLeft );
-					addText( settings.monthText );
+					addText( (monthsLeft == 1 && settings.monthSingularText) ? settings.monthSingularText : settings.monthText );
 					addSeparator();
 				}
 			}
 			
 			if( settings.weeks && !hideWeeks ) {
 				addTime( weeksLeft );
-				addText( settings.weekText );
+				addText( (weeksLeft == 1 && settings.weekSingularText) ? settings.weekSingularText : settings.weekText );
 				addSeparator();
 			}
 
 			if( !hideDays ) {
 				addTime( daysLeft );
-				addText( settings.dayText );
+				addText( (daysLeft == 1 && settings.daySingularText) ? settings.daySingularText : settings.dayText );
 				addSeparator();
 			}
 
 			if( !hideHours ) {
 				addTime( hrsLeft );
-				addText( settings.hourText );
+				addText( (hrsLeft == 1 && settings.hourSingularText) ? settings.hourSingularText : settings.hourText );
 				addSeparator();
 			}
 			
 			if( !hideMins ) {
 				addTime( minsLeft );
-				addText( settings.minText );
+				addText( (minsLeft == 1 && settings.minSingularText) ? settings.minSingularText  : settings.minText );
 				addSeparator();
 			}
 			
@@ -488,9 +484,6 @@ $.fn.countdown = function( method /*, options*/ ) {
 					weeksLeft = 0;
 				}
 
-
-				//minsLeft = extractSection( secPerMin );
-				//secLeft = extractSection( secPerSec );				
 			}	
 
 			//Assumes you are using dates within a month  ( ~ 30 days )
@@ -522,12 +515,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 				diff += ( minsLeft * secPerMin );
 				
 				minsLeft = extractSection( secPerMin );
-				
 
-				
-				//minsLeft += ( hrsLeft * 60 ) + ( ( daysLeft * 24 ) * 60 );
-				//daysLeft = hrsLeft = 0;
-				
 			}
 
 			//Assumes you are only using dates in the near future ( <= 60 minutes )
@@ -549,15 +537,8 @@ $.fn.countdown = function( method /*, options*/ ) {
 
 				// Add seconds back on
 				diff += secLeft;
-				//minsLeft = 0;
 
 				secLeft = extractSection( secPerSec );
-				
-
-				/*
-				secLeft += ( minsLeft * 60 );
-				daysLeft = hrsLeft = minsLeft = 0;
-				*/
 			}
 						
 			settings.yearsLeft = yearsLeft;
@@ -660,9 +641,6 @@ $.fn.countdown = function( method /*, options*/ ) {
 
 					settings.dom.$time = $("<"+settings.timeWrapElement+">").addClass( settings.timeWrapClass );
 					settings.dom.$text = $("<"+settings.textWrapElement+">").addClass( settings.textWrapClass );
-					
-					//$timeWrapElement = $("<"+settings.timeWrapElement+">").addClass( settings.timeWrapClass ),
-					//$textWrapElement = $("<"+settings.textWrapElement+">")
 
 					settings.clientdateNow = new Date();
 					settings.clientdateNow.setMilliseconds(0);					
@@ -750,7 +728,6 @@ $.fn.countdown = function( method /*, options*/ ) {
 						return true;
 					}
 
-					//$this.data("jcdData", settings).trigger("resume.jcdevt", [settings] ).trigger("countResume", [settings] );
 					$this.data("jcdData", settings).triggerMulti("resume.jcdevt,countResume", [settings] );
 					//We only want to resume a countdown that hasn't finished
 					if( !settings.hasCompleted ) {
@@ -876,6 +853,15 @@ $.fn.countdown.defaults = {
 	hourText: 'hours',
 	minText: 'mins',
 	secText: 'sec',
+
+    yearSingularText: 'year',
+    monthSingularText: 'month',
+    weekSingularText: 'week',
+    daySingularText: 'day',
+    hourSingularText: 'hour',
+    minSingularText: 'min',
+    secSingularText: 'sec',
+
 	digits : [0,1,2,3,4,5,6,7,8,9],
 	timeWrapElement: 'span',
 	textWrapElement: 'span',
