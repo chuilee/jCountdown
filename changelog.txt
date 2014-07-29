@@ -1,8 +1,6 @@
-Version 1.5.2:
+Version 1.5.3:
 	
-	- Added singular functionality
-	- Add bower support, install using:
-	    bower install jcoundown --save
+	- Fix recursion bug on complete event involving $.fn.data (https://github.com/tomgrohl/jCountdown/issues/9)
 
 		
 

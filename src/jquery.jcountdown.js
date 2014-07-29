@@ -566,9 +566,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 				$this.triggerMulti("complete.jcdevt,countComplete");
 				clearInterval( settings.timer );
 			}
-			
-			$this.data("jcdData", settings);
-			
+
 		},			
 		methods = {		
 			init: function( options ) {

@@ -1,4 +1,4 @@
-/*! jCountdown jQuery Plugin - v1.5.2 - 2014-02-01
+/*! jCountdown jQuery Plugin - v1.5.2 - 2014-07-29
 * https://github.com/tomgrohl/jCountdown/
 * Copyright (c) 2014 Tom Ellis; Licensed MIT */
 (function($) {
@@ -569,9 +569,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 				$this.triggerMulti("complete.jcdevt,countComplete");
 				clearInterval( settings.timer );
 			}
-			
-			$this.data("jcdData", settings);
-			
+
 		},			
 		methods = {		
 			init: function( options ) {
