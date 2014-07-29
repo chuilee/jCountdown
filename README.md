@@ -1,7 +1,7 @@
 # jCountdown - jQuery Countdown Plugin
 
 
-##Current Version - 1.5.2
+##Current Version - 1.5.3
 
 ## Installation
 
