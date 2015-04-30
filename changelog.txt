@@ -1,7 +1,7 @@
-Version 1.5.3:
+Version 1.5.4:
 	
-	- Fix recursion bug on complete event involving $.fn.data (https://github.com/tomgrohl/jCountdown/issues/9)
-
+	- Fix single second text string (https://github.com/tomgrohl/jCountdown/issues/15)
+		Thanks to barrymieny
 		
 
 		
