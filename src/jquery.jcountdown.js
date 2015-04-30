@@ -341,7 +341,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 			
 			
 			addTime( secLeft );			
-			addText( settings.secText );
+			addText( (secLeft == 1 && settings.secSingularText) ? settings.secSingularText  : settings.secText );
 						
 			if( settings.isRTL === true ) {
 				timeTasks.reverse();
