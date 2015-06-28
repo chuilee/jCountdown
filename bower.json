@@ -1,6 +1,6 @@
 {
     "name": "jcountdown",
-    "version": "1.5.3",
+    "version": "2.0.0",
     "authors": [
         "Tom Ellis <tellishtc@gmail.com>"
     ],
@@ -9,6 +9,7 @@
     "ignore": [
         "**/.*",
         "*.md",
+        "assets",
         "node_modules",
         "bower_components",
         "test",
@@ -18,12 +19,11 @@
         "bower.json",
         "src",
         "changelog.txt",
-        "demo"
     ],
     "dependencies": {
         "jquery": "~1.11.0"
     },
     "devDependencies": {
-        "qunit": "~1.12.0"
+        "qunit": "~1.18.0"
     }
 }

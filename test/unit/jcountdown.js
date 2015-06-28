@@ -32,7 +32,7 @@ asyncTest("Events Fire", 6, function() {
 
 	date.setMilliseconds(0);
 	
-	pastDate = new Date( date.getTime() - ( 3600 * 24  * 1000 ) ), //1 day in the past
+	pastDate = new Date( date.getTime() - ( 3600 * 24  * 1000 ) ); //1 day in the past
 	
 	$test.countdown({
 		date: pastDate,
@@ -50,7 +50,6 @@ asyncTest("Events Fire", 6, function() {
 		},	
 		onComplete: function() {
 			ok( true, "Complete Event Fired" );
-			start();
 		},
 		onLocaleChange: function() {
 			ok( true, "Locale Event Fired" );

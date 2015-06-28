@@ -1,7 +1,8 @@
-Version 1.5.4:
+Version 2.0.0:
 	
-	- Fix single second text string (https://github.com/tomgrohl/jCountdown/issues/15)
-		Thanks to barrymieny
+	- Rewrote templating so now there is one way of defining a template, with the use of locale placeholders for time text.
+	- Fixes for JSHint
+	- Locale scripts are now linted
 		
 
 		

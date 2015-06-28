@@ -2,7 +2,7 @@
 	"name": "jquery.jcountdown",
 	"title": "jCountdown jQuery Plugin",
 	"description": "jQuery Countdown Plugin.",
-	"version": "1.5.2",
+	"version": "2.0.0",
 	"homepage": "https://github.com/tomgrohl/jCountdown/",
 	"author": {
   		"name": "Tom Ellis",
