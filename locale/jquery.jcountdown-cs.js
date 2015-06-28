@@ -1,4 +1,4 @@
-$.fn.countdown.locale['cs'] = {
+$.fn.countdown.locale.cs = {
 	yearText: 'let',
 	monthText: 'měsíců',
 	weekText: 'týdnů',
@@ -6,8 +6,7 @@ $.fn.countdown.locale['cs'] = {
 	hourText: 'hodin',
 	minText: 'minut',
 	secText: 'sekund',
-	timeSeparator: ':',
 	isRTL: false
 };
 
-$.extend( $.fn.countdown.defaults, $.fn.countdown.locale['cs'] );
+$.extend($.fn.countdown.defaults, $.fn.countdown.locale.cs);
