@@ -18,7 +18,7 @@
         "package.json",
         "bower.json",
         "src",
-        "changelog.txt",
+        "changelog.txt"
     ],
     "dependencies": {
         "jquery": "~1.11.0"
