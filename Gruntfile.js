@@ -33,7 +33,7 @@ module.exports = function(grunt) {
             files: ['test/**/*.html']
         },
         jshint: {
-            files: ['Gruntfile.js', 'src/**/*.js'],
+            files: ['Gruntfile.js', 'src/**/*.js', 'locale/*.js'],
             options: {
                 // options here to override JSHint defaults
                 globals: {
@@ -51,15 +51,14 @@ module.exports = function(grunt) {
         clean: ['dist']
     });
 
-
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
 
-
     grunt.registerTask('test', ['jshint', 'qunit']);
+
     // Default task(s).
     grunt.registerTask('default', ['jshint', 'qunit', 'clean', 'concat', 'uglify']);
 
