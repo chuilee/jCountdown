@@ -1,7 +1,7 @@
 # jCountdown - jQuery Countdown Plugin
 
 
-##Current Version - 2.0.0
+##Current Version - 2.0.1
 
 ## Installation
 
@@ -40,7 +40,8 @@ Get any of the release from https://github.com/tomgrohl/jCountdown/releases
 		int or float (Offset in hours, can be used for setting countdown time to match server time)
 
 	serverDiff - Default: null
-		int (servertime in milliseconds, e.g (time() * 1000)
+		int (difference in servertime from end date/time in milliseconds.
+		e.g (strtotime('2015-12-01') * 1000 ) - (time() * 1000 )
 
 	digits - Default: [0,1,2,3,4,5,6,7,8,9]
 		(Array of numbers used for digits in countdown)
