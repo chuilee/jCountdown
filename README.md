@@ -210,6 +210,13 @@ $(document).ready(function(){
 });
 ```
 
+## Contributing
+
+Please open an issue before creating a pull request. When creating a pull request please include the following:
+
+1) Correct indentations and code styling
+2) Qunit tests
+
 ## License
 
 This plugin is licensed under the MIT License (LICENSE.txt).
