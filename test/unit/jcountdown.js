@@ -536,3 +536,32 @@ test("Template - Remove un-used tokens", 1, function() {
 
     ok( $test.html().indexOf('%y') === -1, 'Template is removed correctly');
 });
+
+test("dataAttr", 6, function() {
+
+	var $test = $("#test");
+
+	$test.attr("data-cdate", "february 2, 2013 09:00:00");
+
+	$test.countdown({
+		dataAttr: "cdate"
+	});
+
+	ok( $test.countdown('getSettings', 'dateObj').getMonth() == 1, 'Get correct month');
+	ok( $test.countdown('getSettings', 'dateObj').getDate() == 2, 'Get correct day');
+	ok( $test.countdown('getSettings', 'dateObj').getFullYear() == 2013, 'Get correct year');
+
+	$test.countdown('destroy');
+
+	$test.attr("data-cdate", "april 3, 2014 09:00:00");
+
+	$test.countdown({
+		dataAttr: "cdate"
+	});
+
+	ok( $test.countdown('getSettings', 'dateObj').getMonth() == 3, 'Get correct month');
+	ok( $test.countdown('getSettings', 'dateObj').getDate() == 3, 'Get correct day');
+	ok( $test.countdown('getSettings', 'dateObj').getFullYear() == 2014, 'Get correct year');
+
+	$test.removeAttr("data-cdate");
+});

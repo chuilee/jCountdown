@@ -373,11 +373,6 @@ $.fn.countdown = function( method /*, options*/ ) {
 			$this.data("jcdData", settings);
 
 			// Check if the countdown has finished
-			if ( !( settings.direction === "down" && ( now < date || settings.minus ) ) || !( settings.direction === "up" && ( date < now || settings.minus )  ) ) {
-				//settings.yearsLeft = settings.monthsLeft = settings.weeksLeft = settings.daysLeft = settings.hrsLeft = settings.minsLeft = settings.secLeft = 0;
-				//settings.hasCompleted = true;
-			}
-
 			// We've got the time sections set so we can now do the templating
 
 			if ( ( settings.direction === "down" && ( now < date || settings.minus ) ) || ( settings.direction === "up" && ( date < now || settings.minus )  ) ) {
@@ -425,7 +420,7 @@ $.fn.countdown = function( method /*, options*/ ) {
 					if ( opts.date ) {
 						testString = opts.date;
 					} else {
-						testString = $this.data(opts.dataAttr);
+						testString = $this.attr('data-' + opts.dataAttr);
 					}
 
 					testDate = new Date(testString);
